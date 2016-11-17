@@ -181,6 +181,8 @@ namespace OldSchool.Ifx
                     return ClearScreenAndHomeCursor;
                 case "moveup":
                     return MoveCursorUp(1);
+                case "moveback":
+                    return MoveCursorLeft(1);
                 default:
                     return string.Empty;
             }

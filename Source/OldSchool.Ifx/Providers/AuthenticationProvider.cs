@@ -35,6 +35,13 @@ namespace OldSchool.Ifx.Providers
             return Task.FromResult(0);
         }
 
+        public async Task OnModulesProcessed(ISessionContext context)
+        {
+            // We don't really care
+            if (Next != null)
+                await Next.OnModulesProcessed(context);
+        }
+
         public async Task OnDataReceived(ISessionContext context)
         {
             if ((bool)context.Session.Properties.Get(SessionConstants.IsAuthenticated))
@@ -140,15 +147,15 @@ namespace OldSchool.Ifx.Providers
             var passwordHash = m_CryptoProvider.Hash(value, seed.ToByteArray());
             var userId = Guid.NewGuid();
             var user = new User
-                       {
-                           Id = userId,
-                           Username = username,
-                           Password = passwordHash,
-                           Seed = seed,
-                           DateAdded = DateTime.Now,
-                           IpAddress = context.Session.ClientAddress.ToString(),
-                           PropertiesBlob = "{ }"
-                       };
+            {
+                Id = userId,
+                Username = username,
+                Password = passwordHash,
+                Seed = seed,
+                DateAdded = DateTime.Now,
+                IpAddress = context.Session.ClientAddress.ToString(),
+                PropertiesBlob = "{ }"
+            };
 
             try
             {

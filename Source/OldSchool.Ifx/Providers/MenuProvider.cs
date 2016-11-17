@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OldSchool.Extensibility;
+using OldSchool.Ifx.Session;
 
 namespace OldSchool.Ifx.Providers
 {
@@ -43,6 +44,25 @@ namespace OldSchool.Ifx.Providers
                 await Next.OnSessionDisconnecting(context);
         }
 
+        public async Task OnModulesProcessed(ISessionContext context)
+        {
+            // We don't show the main menu to people not logged in
+            if (!(bool)context.Session.Properties.Get(SessionConstants.IsAuthenticated))
+            {
+                await Next.OnDataReceived(context);
+                return;
+            }
+
+            // Already have an active module, then no need to see the menu
+            if (context.Session.ActiveModule != null)
+            {
+                await Next.OnModulesProcessed(context);
+                return;
+            }
+
+            ShowMenu(context);
+        }
+
         private async Task<bool> HandleUserInput(ISessionContext context)
         {
             var data = await context.Request.Body.GetBytes();
@@ -81,10 +101,15 @@ namespace OldSchool.Ifx.Providers
             var sb = new StringBuilder();
             sb.Append(AnsiBuilder.Parse("[[action.cls]][[fg.green]][[attr.bold]][[bg.black]]Please select from one of the following choices.\r\n"));
 
-            for (var x = 0; x < m_Modules.Count; x++)
-                sb.Append($"\t{x + 1} - {m_Modules[x].Name}\r\n");
 
-            sb.AppendFormat("\r\n\tX - Log off");
+            sb.Append(AnsiBuilder.Parse("[[action.cls]]"));
+            sb.Append(AnsiBuilder.Parse("\r\n\r\n[[attr.bold]][[fg.cyan]][[bg.black]]MAIN MENU\r\n\r\n"));
+
+            for (var x = 0; x < m_Modules.Count; x++)
+                sb.Append(AnsiBuilder.Parse($"[[attr.bold]][[fg.green]]{x + 1} [[fg.white]]- [[fg.green]]{m_Modules[x].Name}\r\n"));
+
+            sb.Append(AnsiBuilder.Parse("[[attr.bold]][[fg.green]]X [[fg.white]]- [[attr.normal]][[fg.green]]Log Off\r\n\r\n"));
+            sb.Append(AnsiBuilder.Parse("\r\n\r\n[[attr.bold]][[fg.yellow]]Your Selection? [[bg.white]][[fg.black]] [[bg.black]][[action.moveback]]"));
             context.Response.Append(sb.ToString());
         }
     }

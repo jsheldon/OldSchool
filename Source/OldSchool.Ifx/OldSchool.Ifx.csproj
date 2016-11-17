@@ -54,6 +54,7 @@
     <Compile Include="IService.cs" />
     <Compile Include="IoC\IDependencyManager.cs" />
     <Compile Include="Modules\ChatModule.cs" />
+    <Compile Include="Modules\ChatRoom.cs" />
     <Compile Include="Networking\SocketService.cs" />
     <Compile Include="Networking\TelnetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

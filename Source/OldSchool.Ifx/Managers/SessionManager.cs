@@ -97,6 +97,8 @@ namespace OldSchool.Ifx.Managers
             if (session.ActiveModule != null)
                 await session.ActiveModule.OnDataReceived(context);
 
+            await provider.OnModulesProcessed(context);
+
             var client = m_SocketService.Clients.FirstOrDefault(a => a.Id == id);
 
             // Currently no awaited intentionally, don't want to disconnect before this has completed.  

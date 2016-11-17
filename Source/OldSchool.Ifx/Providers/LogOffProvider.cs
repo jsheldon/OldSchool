@@ -17,7 +17,19 @@ namespace OldSchool.Ifx.Providers
                 await Next.OnSessionDisconnecting(context);
         }
 
+        public async Task OnModulesProcessed(ISessionContext context)
+        {
+            await CheckForLogoff(context);
+        }
+
         public async Task OnDataReceived(ISessionContext context)
+        {
+            await CheckForLogoff(context);
+        }
+
+        public IProvider Next { get; set; }
+
+        private async Task CheckForLogoff(ISessionContext context)
         {
             if (context.Session.IsLoggingOff)
                 await context.Response.Append("Good bye!\r\n");
@@ -25,7 +37,5 @@ namespace OldSchool.Ifx.Providers
             if (Next != null)
                 await Next.OnDataReceived(context);
         }
-
-        public IProvider Next { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace OldSchool.Ifx.Providers
         Task OnDataReceived(ISessionContext context);
         Task OnSessionCreated(ISessionContext context);
         Task OnSessionDisconnecting(ISessionContext context);
+        Task OnModulesProcessed(ISessionContext context);
     }
 }
