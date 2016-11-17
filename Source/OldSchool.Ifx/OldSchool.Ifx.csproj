@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36134678-FAB0-46AA-81AE-9EF488A614B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OldSchool.Ifx</RootNamespace>
+    <AssemblyName>OldSchool.Ifx</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap, Version=4.4.1.451, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.1\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Build\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AnsiBuilder.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="IoC\Bootstrapper.cs" />
+    <Compile Include="IService.cs" />
+    <Compile Include="IoC\IDependencyManager.cs" />
+    <Compile Include="Modules\ChatModule.cs" />
+    <Compile Include="Networking\SocketService.cs" />
+    <Compile Include="Networking\TelnetClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\AuthenticationProvider.cs" />
+    <Compile Include="Providers\IProvider.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Providers\LogOffProvider.cs" />
+    <Compile Include="Providers\MenuProvider.cs" />
+    <Compile Include="Session\Session.cs" />
+    <Compile Include="Session\SessionConstants.cs" />
+    <Compile Include="Session\SessionRequest.cs" />
+    <Compile Include="Session\SessionResponse.cs" />
+    <Compile Include="Session\SessionContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Main.ans" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OldSchool.Common\OldSchool.Common.csproj">
+      <Project>{8DBF7C2C-6C7F-48DE-8719-B9129406907C}</Project>
+      <Name>OldSchool.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OldSchool.Engines\OldSchool.Engines.csproj">
+      <Project>{F324A4CC-031D-4C48-A4D7-4CF1046C368E}</Project>
+      <Name>OldSchool.Engines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OldSchool.Extensibility\OldSchool.Extensibility.csproj">
+      <Project>{F70498B0-E384-4772-8400-9E1A3811A84F}</Project>
+      <Name>OldSchool.Extensibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OldSchool.Models\OldSchool.Models.csproj">
+      <Project>{3AE0405E-CEF8-4A3B-82C2-A417ADDD3C05}</Project>
+      <Name>OldSchool.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
