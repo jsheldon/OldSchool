@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.9.9.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.9.9\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mustache-sharp, Version=0.2.10.0, Culture=neutral, PublicKeyToken=40ca26c1e088cef4, processorArchitecture=MSIL">
+      <HintPath>..\packages\mustache-sharp.0.2.10\lib\net40\mustache-sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=4.4.1.451, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StructureMap.4.4.1\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +76,7 @@
     <Compile Include="Session\SessionRequest.cs" />
     <Compile Include="Session\SessionResponse.cs" />
     <Compile Include="Session\SessionContext.cs" />
+    <Compile Include="Templating\HtmlTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Main.ans" />
@@ -90,6 +99,9 @@
       <Project>{3AE0405E-CEF8-4A3B-82C2-A417ADDD3C05}</Project>
       <Name>OldSchool.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templating\Templates\template.teleconference.welcome.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

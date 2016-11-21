@@ -1,0 +1,28 @@
+﻿<link href="../../../../Build/ansi.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../Build/ansi.js"></script>
+<div class="ansi-cls ansi-bg-black">
+    <div>
+        <span class="ansi-fg-yellow ansi-text-bold">
+            Welcome to Chat
+        </span>
+    </div>
+    <div>
+        <span class="ansi-fg-green ansi-text-bold">
+            You are in the
+        </span>
+        <span class="ansi-text-bold ansi-fg-magenta">
+            {{room}}
+        </span>
+        <span class="ansi-fg-green ansi-text-bold">
+            channel.
+        </span>
+    </div>
+    <div>
+        <span class="ansi-fg-white ansi-text-bold">{{#if isEmpty}}There is currently noone else where with you.{{#elif isFull}}There are currently {{count}} users here with you.{{#else}}There is currently 1 other user here with you.{{/if}}</span>
+    </div>
+    <div>
+        <span class="ansi-fg-yellow ansi-text-bold">
+            Just press &quot;</span><span class="ansi-text-bold ansi-fg-cyan">?</span><span class="ansi-fg-yellow ansi-text-bold">&quot; if you need any assistance.
+        </span>
+    </div>
+</div>

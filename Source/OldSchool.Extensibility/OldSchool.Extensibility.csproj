@@ -49,6 +49,7 @@
     <Compile Include="ISessionContext.cs" />
     <Compile Include="ISessionRequest.cs" />
     <Compile Include="ISessionResponse.cs" />
+    <Compile Include="ITemplateProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

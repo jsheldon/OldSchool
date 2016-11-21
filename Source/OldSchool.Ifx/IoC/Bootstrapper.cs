@@ -3,6 +3,7 @@ using System.Linq;
 using OldSchool.Extensibility;
 using OldSchool.Ifx.Managers;
 using OldSchool.Ifx.Networking;
+using OldSchool.Ifx.Templating;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;
@@ -29,6 +30,7 @@ namespace OldSchool.Ifx.IoC
 
                                               a.For<ISocketService>().Singleton().Use<SocketService>();
                                               a.For<ISessionManager>().Singleton().Use<SessionManager>();
+                                              a.For<ITemplateProvider>().Singleton().Use<HtmlTemplateProvider>();
                                           });
 
 

@@ -12,11 +12,13 @@ namespace OldSchool.Ifx.Modules
     {
         private readonly IDictionary<string, ChatRoom> m_Rooms;
         private readonly ISessionManager m_SessionManager;
+        private readonly ITemplateProvider m_TemplateProvider;
 
-        public ChatModule(ISessionManager sessionManager)
+        public ChatModule(ISessionManager sessionManager, ITemplateProvider templateProvider)
         {
             m_Rooms = new Dictionary<string, ChatRoom> { { "MAIN", new ChatRoom(Guid.Empty) } };
             m_SessionManager = sessionManager;
+            m_TemplateProvider = templateProvider;
         }
 
         public async Task OnDataReceived(ISessionContext context)
@@ -74,25 +76,26 @@ namespace OldSchool.Ifx.Modules
             room.Users.Add(context.Session.ClientId);
             var userCount = room.Users.Count;
 
-            await Broadcast(AnsiBuilder.Parse($"[[attr.bold]][[fg.yellow]]{context.Session.Username} has entered the room.\r\n"), "MAIN", context.Session.ClientId);
+            var templateName = "template.teleconference.welcome";
+            var template = m_TemplateProvider.BuildTemplate(templateName);
+            try
+            {
+                var templateBody = template.Render(new
+                {
+                    username = context.Session.Username,
+                    room = userRoom,
+                    count = userCount - 1, // Exclude Self
+                    isEmpty = userCount == 1, // 1 = only you
+                    isFull = userCount > 2 // > 2 = More than 1
+                });
+                await Broadcast(AnsiBuilder.Parse($"[[attr.bold]][[fg.yellow]]{context.Session.Username} has entered the room.\r\n"), "MAIN", context.Session.ClientId);
 
-            await context.Response.Append(AnsiBuilder.ClearScreenAndHomeCursor);
-            await context.Response.Append(AnsiBuilder.Parse("[[attr.bold]][[fg.yellow]]Welcome to Chat!\r\n"));
-            await context.Response.Append(AnsiBuilder.Parse($"[[attr.bold]][[fg.green]]You are in the [[fg.magenta]]{userRoom} [[fg.green]]channel.\r\n"));
-            if (userCount == 1) // Just you!
-            {
-                await context.Response.Append(AnsiBuilder.Parse("[[attr.bold]][[fg.white]]There is currently noone else where with you.\r\n"));
+                await context.Response.Append(templateBody);
             }
-            else if (userCount == 2)
+            catch (KeyNotFoundException ex)
             {
-                await context.Response.Append(AnsiBuilder.Parse("[[attr.bold]][[fg.white]]There is currently 1 other person here with you.\r\n"));
+                Console.WriteLine($"Template {templateName} is invalid : {ex.Message}");
             }
-            else
-            {
-                await context.Response.Append(AnsiBuilder.Parse($"[[attr.bold]][[fg.white]]There are currently {userCount} other people here with you.\r\n"));
-            }
-
-            await context.Response.Append(AnsiBuilder.Parse("[[attr.bold]][[fg.yellow]]Just press \"[[fg.cyan]]?[[fg.yellow]]\" if you need any assistance.\r\n"));
             await ShowPrompt(context);
         }
 
