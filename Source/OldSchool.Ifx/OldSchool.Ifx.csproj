@@ -61,8 +61,6 @@
     <Compile Include="IoC\Bootstrapper.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IoC\IDependencyManager.cs" />
-    <Compile Include="Modules\ChatModule.cs" />
-    <Compile Include="Modules\ChatRoom.cs" />
     <Compile Include="Networking\SocketService.cs" />
     <Compile Include="Networking\TelnetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +74,7 @@
     <Compile Include="Session\SessionRequest.cs" />
     <Compile Include="Session\SessionResponse.cs" />
     <Compile Include="Session\SessionContext.cs" />
+    <Compile Include="Templating\HtmlTemplate.cs" />
     <Compile Include="Templating\HtmlTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,5 +11,6 @@ namespace OldSchool.Extensibility
         Task OnSessionDisconnecting(ISessionContext context);
         Task OnDataReceived(ISessionContext context);
         Task Activate(ISessionContext context);
+        Task Initialize();
     }
 }

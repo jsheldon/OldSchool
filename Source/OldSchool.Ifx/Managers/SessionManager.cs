@@ -9,22 +9,6 @@ using OldSchool.Ifx.Session;
 
 namespace OldSchool.Ifx.Managers
 {
-    public interface ISessionManager
-    {
-        List<ISession> Sessions { get; }
-
-        void Register<T>()
-            where T : IProvider;
-
-        Task OnDataReceived(Guid id, byte[] data);
-        Task Add(INetworkClient client);
-        Task Remove(Guid id);
-
-        Task Broadcast<T>(string message, params Guid[] exclusions)
-            where T : IModule;
-    }
-
-
     public class SessionManager : ISessionManager
     {
         private readonly IDependencyManager m_DependencyManager;

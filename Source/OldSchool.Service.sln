@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{C836EA09
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5DF7FD0A-D231-42A4-A4B0-4ACC4DD26272}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OldSchool.Modules.Teleconference", "OldSchool.Modules.Teleconference\OldSchool.Modules.Teleconference.csproj", "{87EEAC45-750F-4018-93DF-B5B36D1C1D07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{F324A4CC-031D-4C48-A4D7-4CF1046C368E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F324A4CC-031D-4C48-A4D7-4CF1046C368E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F324A4CC-031D-4C48-A4D7-4CF1046C368E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87EEAC45-750F-4018-93DF-B5B36D1C1D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87EEAC45-750F-4018-93DF-B5B36D1C1D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87EEAC45-750F-4018-93DF-B5B36D1C1D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87EEAC45-750F-4018-93DF-B5B36D1C1D07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{36E56F82-8003-4232-8833-4F37DF8B3201} = {C836EA09-7E74-4270-A97D-A25B87BEF0FC}
 		{3AE0405E-CEF8-4A3B-82C2-A417ADDD3C05} = {C836EA09-7E74-4270-A97D-A25B87BEF0FC}
 		{F324A4CC-031D-4C48-A4D7-4CF1046C368E} = {C836EA09-7E74-4270-A97D-A25B87BEF0FC}
+		{87EEAC45-750F-4018-93DF-B5B36D1C1D07} = {C836EA09-7E74-4270-A97D-A25B87BEF0FC}
 	EndGlobalSection
 EndGlobal

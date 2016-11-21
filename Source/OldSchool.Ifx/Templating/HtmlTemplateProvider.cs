@@ -8,18 +8,18 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
-using Mustache;
 using OldSchool.Extensibility;
 
 namespace OldSchool.Ifx.Templating
 {
+    // TODO: There are still some discrepencies between this class and the html/css renderer.  Revolves primarily around spacing.
     public class HtmlTemplateProvider : ITemplateProvider
     {
         private static Dictionary<string, ITemplate> m_Templates;
 
-        static HtmlTemplateProvider()
+        public HtmlTemplateProvider()
         {
-            InitializeTemplates();
+            m_Templates = new Dictionary<string, ITemplate>(); 
         }
 
         public ITemplate BuildTemplate(string name)
@@ -29,32 +29,33 @@ namespace OldSchool.Ifx.Templating
             return null;
         }
 
-        private static void InitializeTemplates()
+        public void RegisterTemplates(Type type)
         {
-            m_Templates = new Dictionary<string, ITemplate>();
-            // For now, we only have a single template, in the future, we want to pull these from available resources
-            var t = new StreamReader(typeof(HtmlTemplateProvider).Assembly.GetManifestResourceStream("OldSchool.Ifx.Templating.Templates.template.teleconference.welcome.html")).ReadToEnd();
-            m_Templates.Add("template.teleconference.welcome", new HtmlTemplate(t));
-        }
-    }
 
-    public class HtmlTemplate : ITemplate
-    {
-        public HtmlTemplate(string templateHtml)
-        {
-            TemplateHtml = templateHtml;
-            ProcessedTemplate = AnsiHtmlParser.Parse(templateHtml);
-        }
+            var resources = from a in type.Assembly.GetManifestResourceNames()
+                            where a.Contains(".template.")
+                            select a;
 
-        public string ProcessedTemplate { get; set; }
+            foreach (var resource in resources)
+            {
+                var nameIndex = resource.IndexOf("template.", StringComparison.Ordinal);
+                if (nameIndex == -1)
+                    continue;
 
-        public string TemplateHtml { get; set; }
+                var templateName = resource.Substring(nameIndex + 9);
+                if (templateName.EndsWith(".html"))
+                {
+                    templateName = templateName.Substring(0, templateName.Length - 5);
+                    using (var r = type.Assembly.GetManifestResourceStream(resource))
+                    {
+                        if (r == null)
+                            continue;
 
-        public string Render(dynamic obj)
-        {
-            var compiler = new FormatCompiler { RemoveNewLines = false };
-            var template = compiler.Compile(ProcessedTemplate);
-            return template.Render(obj);
+                        var sr = new StreamReader(r);
+                        m_Templates.Add(templateName, new HtmlTemplate(sr.ReadToEnd()));
+                    }
+                }
+            }
         }
     }
 
@@ -147,6 +148,12 @@ namespace OldSchool.Ifx.Templating
         {
             foreach (var token in tokens)
             {
+                if (token == "tab")
+                {
+                    attributes.IsTab = true;
+                    return;
+                }
+
                 if (!token.StartsWith("ansi-"))
                     continue;
 
@@ -231,9 +238,13 @@ namespace OldSchool.Ifx.Templating
         public bool IsCls { get; set; }
         public bool IsBold { get; set; }
         public bool IsUnderline { get; set; }
+        public bool IsTab { get; set; }
 
         public override string ToString()
         {
+            if (IsTab)
+                return "\t";
+
             var sb = new StringBuilder();
             if (IsCls)
                 sb.Append("\x1B[2J");

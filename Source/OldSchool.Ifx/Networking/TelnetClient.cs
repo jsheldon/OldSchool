@@ -5,21 +5,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using OldSchool.Extensibility;
 using OldSchool.Ifx.Session;
 
 namespace OldSchool.Ifx.Networking
 {
-    public interface INetworkClient : IDisposable
-    {
-        IPAddress ClientAddress { get; }
-        Action<Guid, byte[]> OnDataReceived { set; }
-        Action<Guid> OnSendComplete { set; }
-        Guid Id { get; }
-        Task Send(Stream stream, IDictionary<string, object> properties);
-        Task Send(string message, IDictionary<string, object> properties);
-        void Disconnect();
-    }
-
     public class TelnetClient : INetworkClient
     {
         private static readonly byte[] m_ShutdownMessage = Encoding.ASCII.GetBytes("Server shutting down...");
@@ -62,14 +52,6 @@ namespace OldSchool.Ifx.Networking
             SetMaskedInput(properties);
         }
 
-        private void SetMaskedInput(IDictionary<string, object> properties)
-        {
-            m_MaskNextInput = false;
-            var value = properties.Get(SessionConstants.MaskNextInput);
-            if (value != null)
-                m_MaskNextInput = (bool)value;
-        }
-
         public void Disconnect()
         {
             if (m_Socket == null)
@@ -82,11 +64,6 @@ namespace OldSchool.Ifx.Networking
             m_Socket = null;
         }
 
-        private void Send(byte[] data)
-        {
-            m_Socket?.BeginSend(data, 0, data.Length, SocketFlags.None, SendComplete, null);
-        }
-
         public Task Send(string message, IDictionary<string, object> properties)
         {
             return Task.Factory.StartNew(() =>
@@ -95,6 +72,19 @@ namespace OldSchool.Ifx.Networking
                                              var data = Encoding.ASCII.GetBytes(message);
                                              Send(data);
                                          });
+        }
+
+        private void SetMaskedInput(IDictionary<string, object> properties)
+        {
+            m_MaskNextInput = false;
+            var value = properties.Get(SessionConstants.MaskNextInput);
+            if (value != null)
+                m_MaskNextInput = (bool)value;
+        }
+
+        private void Send(byte[] data)
+        {
+            m_Socket?.BeginSend(data, 0, data.Length, SocketFlags.None, SendComplete, null);
         }
 
         private void EndReceive(IAsyncResult asyncResult)

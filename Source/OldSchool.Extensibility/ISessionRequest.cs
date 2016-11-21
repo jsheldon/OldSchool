@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace OldSchool.Extensibility
 {
@@ -11,5 +12,6 @@ namespace OldSchool.Extensibility
         void Append(string data);
         void Append(byte[] data);
         void Clear();
+        Task<byte[]> GetBytes();
     }
 }

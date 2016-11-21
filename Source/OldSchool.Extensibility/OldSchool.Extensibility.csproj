@@ -43,10 +43,14 @@
     <Compile Include="..\..\Build\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="IDependencyManager.cs" />
     <Compile Include="IModule.cs" />
+    <Compile Include="INetworkClient.cs" />
+    <Compile Include="IProvider.cs" />
     <Compile Include="ISession.cs" />
     <Compile Include="ISessionContext.cs" />
+    <Compile Include="ISessionManager.cs" />
     <Compile Include="ISessionRequest.cs" />
     <Compile Include="ISessionResponse.cs" />
     <Compile Include="ITemplateProvider.cs" />

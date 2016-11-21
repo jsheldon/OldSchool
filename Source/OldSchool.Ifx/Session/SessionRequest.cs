@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using OldSchool.Extensibility;
 
 namespace OldSchool.Ifx.Session
@@ -44,6 +45,18 @@ namespace OldSchool.Ifx.Session
         {
             Body.Dispose();
             Body = new MemoryStream();
+        }
+
+        public async Task<byte[]> GetBytes()
+        {
+            if (Body.CanSeek)
+                Body.Seek(0, SeekOrigin.Begin);
+
+            using (var ms = new MemoryStream())
+            {
+                await Body.CopyToAsync(ms);
+                return ms.ToArray();
+            }
         }
 
         public void Append(string stringData)

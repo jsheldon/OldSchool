@@ -166,12 +166,5 @@ namespace OldSchool.Ifx
                 return ms.ToArray();
             }
         }
-
-        public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> collection, TKey key)
-        {
-            if (collection.ContainsKey(key))
-                return collection[key];
-            return default(TValue);
-        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using OldSchool.Common;
+using OldSchool.Extensibility;
 
 namespace OldSchool.Ifx.Networking
 {

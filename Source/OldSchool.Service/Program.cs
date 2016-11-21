@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using OldSchool.Common;
+using OldSchool.Extensibility;
 using OldSchool.Ifx;
 using OldSchool.Ifx.IoC;
 
@@ -16,7 +17,19 @@ namespace OldSchool.Service
         private static void Main()
         {
             var container = Bootstrapper.Init();
+            Console.WriteLine("Initializing...");
+            var templateProvider = container.GetInstance<ITemplateProvider>();
+            var modules = container.GetAllInstances<IModule>();
+            foreach (var module in modules)
+            {
+                Console.WriteLine($"...Registering Templates for: {module}");
+                templateProvider.RegisterTemplates(module.GetType());
+                Console.WriteLine($"...Initializing: {module}");
+                module.Initialize();
+            }
 
+            Console.WriteLine("Initialization Complete");
+            Console.WriteLine("Starting Services...");
             // TODO: Revisit, current plans are to add additional service layers for things such as web.
             var services = container.GetAllInstances<IService>().ToList();
             StartDebug(services);
